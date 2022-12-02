@@ -15,11 +15,15 @@ export default {
   onKeyPress(key) {
     if (/^[A-z]$/.test(key)) {
       this.fillTile(key);
+      return;
+    }
+    if (key === "Enter") {
+      this.submitGuess(key);
     }
   },
 
   fillTile(key) {
-    for (let tile of this.currentRow()) {
+    for (let tile of this.currentRow) {
       if (!tile.letter) {
         tile.letter = key;
         break;
@@ -34,7 +38,14 @@ export default {
     }
   },
 
-  currentRow() {
+  get currentRow() {
     return this.board[this.currentRowIndex];
+  },
+  get currentGuess() {
+    return this.currentRow.map((tile) => tile.letter);
+  },
+
+  submitGuess() {
+    alert(this.currentGuess);
   },
 };
