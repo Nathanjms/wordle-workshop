@@ -33,26 +33,21 @@ export default {
       this.fillTile(key);
       return;
     }
+    if (key === "Backspace") {
+      this.emptyTile();
+    }
     if (key === "Enter") {
       this.submitGuess(key);
       return;
     }
-    if (key === "Backspace") {
-      this.emptyTile();
-    }
   },
 
   fillTile(key) {
-    for (let tile of this.currentRow) {
-      if (!tile.letter) {
-        tile.fill(key);
-        break;
-      }
-    }
+    this.currentRow.find((t) => !t.letter)?.fill(key); // Fill the next tile in the row without a letter (if one exists)
   },
 
   emptyTile() {
-    this.currentRow.findLast((t) => t.letter)?.empty(); // Empty the last letter in the row that isn't empty (if one exists)
+    this.currentRow.findLast((t) => t.letter)?.empty(); // Empty the last tile in the row that isn't empty (if one exists)
   },
 
   submitGuess() {
