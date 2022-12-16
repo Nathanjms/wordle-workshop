@@ -20,3 +20,12 @@ body {
   outline: 1px solid currentColor;
   font-size: 2rem;
 }
+
+.message {
+  padding: 0.5rem;
+  margin-block: 1rem;
+  font-size: 1.5rem;
+  background-color: rgb(194, 194, 194);
+  border-radius: 1rem;
+  color: rgb(53, 53, 53);
+}

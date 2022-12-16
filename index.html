@@ -11,6 +11,7 @@
   </head>
   <body>
     <div id="game" x-data="game" @keyup.window="onKeyPress($event.key)">
+      <div x-show="message" x-text="message" class="message"></div>
       <template x-for="row in board">
         <div class="row">
           <template x-for="tile in row">

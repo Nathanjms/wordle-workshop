@@ -5,6 +5,8 @@ export default {
   currentRowIndex: 0,
   currentColIndex: 0,
   theWord: "cat",
+  state: "active",
+  message: "",
 
   init() {
     this.board = Array.from({ length: this.guessesAllowed }, () => {
@@ -23,6 +25,7 @@ export default {
   },
 
   fillTile(key) {
+    this.message = "";
     for (let tile of this.currentRow) {
       if (!tile.letter) {
         tile.letter = key;
@@ -49,10 +52,13 @@ export default {
     }
 
     if (guess === this.theWord) {
-      alert("correct");
+      this.message = "Correct, you win!";
+    } else if (this.guessesAllowed === this.currentRowIndex + 1) {
+      this.message = "Game over, You Lose!";
+      this.state = "complete";
     } else {
       this.currentRowIndex++;
-      alert("zing zong you are wrong");
+      this.message = "Zing-zong you are wrong";
     }
   },
 };
