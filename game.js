@@ -2,9 +2,9 @@ import Tile from "./Tile.js";
 
 export default {
   guessesAllowed: 4,
-  wordLength: 3,
   currentRowIndex: 0,
   currentColIndex: 0,
+  theWord: "cat",
 
   init() {
     this.board = Array.from({ length: this.guessesAllowed }, () => {
@@ -29,23 +29,30 @@ export default {
         break;
       }
     }
-
-    if (this.currentColIndex === this.wordLength - 1 && this.currentRowIndex !== this.guessesAllowed - 1) {
-      ++this.currentRowIndex;
-      this.currentColIndex = 0;
-    } else {
-      ++this.currentColIndex;
-    }
   },
 
+  get wordLength() {
+    return this.theWord.length;
+  },
   get currentRow() {
     return this.board[this.currentRowIndex];
   },
   get currentGuess() {
-    return this.currentRow.map((tile) => tile.letter);
+    return this.currentRow.map((tile) => tile.letter).join("");
   },
 
   submitGuess() {
-    alert(this.currentGuess);
+    let guess = this.currentGuess;
+    console.log(this.currentGuess, this.wordLength);
+    if (guess.length < this.wordLength) {
+      return;
+    }
+
+    if (guess === this.theWord) {
+      alert("correct");
+    } else {
+      this.currentRowIndex++;
+      alert("zing zong you are wrong");
+    }
   },
 };
