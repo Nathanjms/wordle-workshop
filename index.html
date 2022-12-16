@@ -13,7 +13,11 @@
     <main x-data="game">
       <div x-show="isLoading">Loading...</div>
       <h1 class="header">Shwordle</h1>
-      <div x-show="!isLoading">
+      <div x-show="error" style="text-align: center">
+        <p x-text="error"></p>
+        <a href="mailto:nathan@nathanjms.co.uk" style="color: white">nathan@nathanjms.co.uk</a>
+      </div>
+      <div x-show="!isLoading && !error">
         <div id="game" @keyup.window="onKeyPress($event.key)">
           <template x-for="(row, index) in board">
             <div class="row" :class="{'current': currentRowIndex === index}">

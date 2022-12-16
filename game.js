@@ -2,13 +2,14 @@ import Tile from "./Tile.js";
 
 export default {
   isLoading: false,
-  guessesAllowed: 4,
+  guessesAllowed: 5,
   currentRowIndex: 0,
   currentColIndex: 0,
-  wordLength: 5,
+  wordLength: 4,
   theWord: "",
   state: "active",
   message: "",
+  error: "",
 
   get currentRow() {
     return this.board[this.currentRowIndex];
@@ -29,12 +30,14 @@ export default {
 
   async fetchValidWords() {
     this.isLoading = true;
+    this.error = "";
     try {
       const res = await fetch(`/wordLists/words${this.wordLength}.json`);
       this.validWords = (await res.json()).map((w) => w.toLowerCase());
       this.theWord = this.validWords[Math.floor(Math.random() * this.validWords.length)];
     } catch (error) {
-      console.log(error);
+      this.error = "An error has occurred, please let me know!";
+      console.error(error);
     } finally {
       this.isLoading = false;
     }
