@@ -125,14 +125,10 @@ output {
   font-weight: 500;
   font-style: italic;
   font-size: 17px;
-  margin: 1rem;
-  position: absolute;
-  top: 0;
+  text-align: center;
+  width: 100%;
+  margin-top: 1.25rem;
+  position: fixed;
+  left: 0;
   right: 0;
-  width: 150px;
-}
-
-output:empty {
-  display: none;
-  color: #496e9e;
 }
