@@ -9,4 +9,14 @@ export default class Tile {
   empty() {
     this.letter = "";
   }
+
+  updateStatus(theWord, index) {
+    if (!theWord.includes(this.letter)) {
+      this.status = "absent";
+    } else if (this.letter === theWord[index]) {
+      this.status = "correct";
+    } else {
+      this.status = "present";
+    }
+  }
 }

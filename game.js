@@ -8,6 +8,16 @@ export default {
   state: "active",
   message: "",
 
+  get wordLength() {
+    return this.theWord.length;
+  },
+  get currentRow() {
+    return this.board[this.currentRowIndex];
+  },
+  get currentGuess() {
+    return this.currentRow.map((tile) => tile.letter).join("");
+  },
+
   init() {
     this.board = Array.from({ length: this.guessesAllowed }, () => {
       return Array.from({ length: this.wordLength }, () => new Tile());
@@ -34,16 +44,6 @@ export default {
     }
   },
 
-  get wordLength() {
-    return this.theWord.length;
-  },
-  get currentRow() {
-    return this.board[this.currentRowIndex];
-  },
-  get currentGuess() {
-    return this.currentRow.map((tile) => tile.letter).join("");
-  },
-
   submitGuess() {
     let guess = this.currentGuess;
 
@@ -51,7 +51,9 @@ export default {
       return;
     }
 
-    this.handleTileStatusesForRow();
+    this.currentRow.forEach((tile, index) => {
+      tile.updateStatus(this.theWord, index);
+    });
 
     if (guess === this.theWord) {
       this.message = "Correct, you win!";
@@ -62,17 +64,5 @@ export default {
       this.currentRowIndex++;
       this.message = "Zing-zong you are wrong";
     }
-  },
-
-  handleTileStatusesForRow() {
-    this.currentRow.forEach((tile, index) => {
-      if (!this.theWord.includes(tile.letter)) {
-        tile.status = "absent";
-      } else if (tile.letter === this.theWord[index]) {
-        tile.status = "correct";
-      } else {
-        tile.status = "present";
-      }
-    });
   },
 };
