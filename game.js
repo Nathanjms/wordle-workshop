@@ -5,7 +5,7 @@ export default {
   guessesAllowed: 4,
   currentRowIndex: 0,
   currentColIndex: 0,
-  wordLength: 3,
+  wordLength: 5,
   theWord: "",
   state: "active",
   message: "",
@@ -31,8 +31,8 @@ export default {
     this.isLoading = true;
     try {
       const res = await fetch(`/wordLists/words${this.wordLength}.json`);
-      this.validWords = await res.json();
-      this.theWord = this.validWords[Math.floor(Math.random() * this.validWords.length)].toLowerCase();
+      this.validWords = (await res.json()).map((w) => w.toLowerCase());
+      this.theWord = this.validWords[Math.floor(Math.random() * this.validWords.length)];
     } catch (error) {
       console.log(error);
     } finally {
@@ -67,6 +67,11 @@ export default {
     let guess = this.currentGuess;
 
     if (guess.length < this.wordLength) {
+      return;
+    }
+
+    if (!this.validWords.includes(guess)) {
+      this.message = "Invalid Word";
       return;
     }
 
