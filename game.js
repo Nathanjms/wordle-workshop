@@ -1,16 +1,15 @@
 import Tile from "./Tile.js";
 
 export default {
+  isLoading: false,
   guessesAllowed: 4,
   currentRowIndex: 0,
   currentColIndex: 0,
-  theWord: "cat",
+  wordLength: 3,
+  theWord: "",
   state: "active",
   message: "",
 
-  get wordLength() {
-    return this.theWord.length;
-  },
   get currentRow() {
     return this.board[this.currentRowIndex];
   },
@@ -21,16 +20,30 @@ export default {
     return this.guessesAllowed - this.currentRowIndex - 1;
   },
 
-  init() {
+  async init() {
     this.board = Array.from({ length: this.guessesAllowed }, () => {
       return Array.from({ length: this.wordLength }, () => new Tile());
     });
+    await this.fetchValidWords();
+  },
+
+  async fetchValidWords() {
+    this.isLoading = true;
+    try {
+      const res = await fetch(`/wordLists/words${this.wordLength}.json`);
+      this.validWords = await res.json();
+      this.theWord = this.validWords[Math.floor(Math.random() * this.validWords.length)].toLowerCase();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      this.isLoading = false;
+    }
   },
 
   onKeyPress(key) {
     if (/^[A-z]$/.test(key)) {
       this.message = "";
-      this.fillTile(key);
+      this.fillTile(key.toLowerCase());
       return;
     }
     if (key === "Backspace") {
@@ -68,7 +81,7 @@ export default {
     }
 
     if (this.remainingGuesses === 0) {
-      this.message = "Game over, You Lose!";
+      this.message = "Game over, You Lose! Word was " + this.theWord;
       this.state = "complete";
       return;
     }

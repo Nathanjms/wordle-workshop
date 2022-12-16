@@ -10,18 +10,21 @@
     <link rel="stylesheet" href="/app.css" />
   </head>
   <body>
-    <main x-data="game" @keyup.window="onKeyPress($event.key)">
+    <main x-data="game">
+      <div x-show="isLoading">Loading...</div>
       <h1 class="header">Shwordle</h1>
-      <div id="game">
-        <template x-for="(row, index) in board">
-          <div class="row" :class="{'current': currentRowIndex === index}">
-            <template x-for="tile in row">
-              <div class="tile" x-text="tile.letter" :class="tile.status"></div>
-            </template>
-          </div>
-        </template>
+      <div x-show="!isLoading">
+        <div id="game" @keyup.window="onKeyPress($event.key)">
+          <template x-for="(row, index) in board">
+            <div class="row" :class="{'current': currentRowIndex === index}">
+              <template x-for="tile in row">
+                <div class="tile" x-text="tile.letter" :class="tile.status"></div>
+              </template>
+            </div>
+          </template>
+        </div>
+        <output x-show="message" x-text="message"></output>
       </div>
-      <output x-show="message" x-text="message"></output>
     </main>
   </body>
 </html>
