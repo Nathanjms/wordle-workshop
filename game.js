@@ -29,22 +29,30 @@ export default {
 
   onKeyPress(key) {
     if (/^[A-z]$/.test(key)) {
+      this.message = "";
       this.fillTile(key);
       return;
     }
     if (key === "Enter") {
       this.submitGuess(key);
+      return;
+    }
+    if (key === "Backspace") {
+      this.emptyTile();
     }
   },
 
   fillTile(key) {
-    this.message = "";
     for (let tile of this.currentRow) {
       if (!tile.letter) {
-        tile.letter = key;
+        tile.fill(key);
         break;
       }
     }
+  },
+
+  emptyTile() {
+    this.currentRow.findLast((t) => t.letter)?.empty(); // Empty the last letter in the row that isn't empty (if one exists)
   },
 
   submitGuess() {
