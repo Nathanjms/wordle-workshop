@@ -57,12 +57,17 @@ export default {
 
     if (guess === this.theWord) {
       this.message = "Correct, you win!";
-    } else if (this.guessesAllowed === this.currentRowIndex + 1) {
+      this.state = "complete";
+      return;
+    }
+
+    if (this.remainingGuesses === 0) {
       this.message = "Game over, You Lose!";
       this.state = "complete";
-    } else {
-      this.currentRowIndex++;
-      this.message = "Zing-zong you are wrong";
+      return;
     }
+
+    this.message = "Zing-zong you are wrong";
+    this.currentRowIndex++;
   },
 };
