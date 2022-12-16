@@ -17,6 +17,9 @@ export default {
   get currentGuess() {
     return this.currentRow.map((tile) => tile.letter).join("");
   },
+  get remainingGuesses() {
+    return this.guessesAllowed - this.currentRowIndex - 1;
+  },
 
   init() {
     this.board = Array.from({ length: this.guessesAllowed }, () => {
