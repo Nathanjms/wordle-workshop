@@ -46,10 +46,12 @@ export default {
 
   submitGuess() {
     let guess = this.currentGuess;
-    console.log(this.currentGuess, this.wordLength);
+
     if (guess.length < this.wordLength) {
       return;
     }
+
+    this.handleTileStatusesForRow();
 
     if (guess === this.theWord) {
       this.message = "Correct, you win!";
@@ -60,5 +62,17 @@ export default {
       this.currentRowIndex++;
       this.message = "Zing-zong you are wrong";
     }
+  },
+
+  handleTileStatusesForRow() {
+    this.currentRow.forEach((tile, index) => {
+      if (!this.theWord.includes(tile.letter)) {
+        tile.status = "absent";
+      } else if (tile.letter === this.theWord[index]) {
+        tile.status = "correct";
+      } else {
+        tile.status = "present";
+      }
+    });
   },
 };

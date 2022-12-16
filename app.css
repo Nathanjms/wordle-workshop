@@ -21,6 +21,18 @@ body {
   font-size: 2rem;
 }
 
+.tile.absent {
+  background-color: #666;
+}
+
+.tile.present {
+  background-color: rgb(214, 201, 10);
+}
+
+.tile.correct {
+  background-color: rgb(25, 152, 0);
+}
+
 .message {
   padding: 0.5rem;
   margin-block: 1rem;
