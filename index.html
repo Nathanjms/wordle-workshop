@@ -13,8 +13,8 @@
     <main x-data="game" @keyup.window="onKeyPress($event.key)">
       <h1 class="header">Shwordle</h1>
       <div id="game">
-        <template x-for="row in board">
-          <div class="row">
+        <template x-for="(row, index) in board">
+          <div class="row" :class="{'current': currentRowIndex === index}">
             <template x-for="tile in row">
               <div class="tile" x-text="tile.letter" :class="tile.status"></div>
             </template>
