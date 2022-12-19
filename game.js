@@ -34,6 +34,7 @@ export default {
     try {
       const res = await fetch(`/wordLists/words${this.wordLength}.json`);
       this.validWords = (await res.json()).map((w) => w.toLowerCase());
+      // Grab random word from list
       this.theWord = this.validWords[Math.floor(Math.random() * this.validWords.length)];
     } catch (error) {
       this.error = "An error has occurred, please let me know!";
@@ -78,9 +79,7 @@ export default {
       return;
     }
 
-    this.currentRow.forEach((tile, index) => {
-      tile.updateStatus(this.theWord, index);
-    });
+    this.setTileStatuses();
 
     if (guess === this.theWord) {
       this.message = "Correct, you win!";
@@ -96,5 +95,29 @@ export default {
 
     this.message = "Zing-zong you are wrong";
     this.currentRowIndex++;
+  },
+
+  setTileStatuses() {
+    let wordLetters = this.theWord.split("");
+
+    this.currentRow.forEach((tile, idx) => {
+      // Mark all as absent...
+      tile.status = "absent";
+      // ...then if an exact match is found, remove that letter from the word
+      if (tile.letter === wordLetters[idx]) {
+        tile.status = "correct";
+        wordLetters.splice(idx, 1, "_");
+      }
+    });
+
+    // Loop again on the partial word
+    this.currentRow.forEach((tile) => {
+      // If letter still exists in the word, mark as present and remove letter from word
+      const foundIndex = wordLetters.indexOf(tile.letter);
+      if (foundIndex !== -1 && tile.status === "absent") {
+        tile.status = "present";
+        wordLetters.splice(foundIndex, 1, "_");
+      }
+    });
   },
 };
