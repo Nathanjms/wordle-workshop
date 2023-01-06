@@ -11,6 +11,8 @@ export default {
   message: "",
   error: "",
 
+  letters: ["QWERTYUIOP".split(""), "ASDFGHJKL".split(""), ["Enter", ..."ZXCVBNM".split(""), "Backspace"]],
+
   get currentRow() {
     return this.board[this.currentRowIndex];
   },
