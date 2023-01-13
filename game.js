@@ -30,6 +30,14 @@ export default {
     await this.fetchValidWords();
   },
 
+  matchingTileForKey(key) {
+    return this.board
+      .flat() // Turn array of arrays into one long array
+      .filter((tile) => tile.status) // Only use the tiles that have a status assigned
+      .sort((t1, t2) => Number(t2.status === "correct")) // 'bubble' all the green values to the top
+      .find((tile) => tile.letter == key.toLowerCase());
+  },
+
   async fetchValidWords() {
     this.isLoading = true;
     this.error = "";
@@ -90,7 +98,7 @@ export default {
     }
 
     if (this.remainingGuesses === 0) {
-      this.message = "Game over, You Lose! Word was " + this.theWord;
+      this.message = "Game over, You Lose! Word was " + this.theWord.toUpperCase();
       this.state = "complete";
       return;
     }

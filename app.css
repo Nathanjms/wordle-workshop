@@ -19,6 +19,10 @@ body {
   font-family: Poppins, sans-serif;
 }
 
+main {
+  width: 100vw;
+}
+
 h1 {
   text-align: center;
   margin-top: 0;
@@ -85,7 +89,7 @@ h1 {
   border: 0;
   margin: 2px;
   height: 50px;
-  min-width: 40px;
+  min-width: 30px;
   border-radius: 4px;
 }
 
@@ -133,6 +137,6 @@ output {
   right: 0;
   top: 0;
   padding: 1rem;
-  background-color: #2b4880;
+  background-color: rgba(43, 72, 128, 0.6);
   border-radius: 0.5rem;
 }
