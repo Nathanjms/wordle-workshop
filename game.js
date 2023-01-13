@@ -10,6 +10,7 @@ export default {
   state: "active",
   message: "",
   error: "",
+  validWords: [],
 
   letters: ["QWERTYUIOP".split(""), "ASDFGHJKL".split(""), ["Enter", ..."ZXCVBNM".split(""), "Backspace"]],
 
@@ -28,6 +29,8 @@ export default {
       return Array.from({ length: this.wordLength }, () => new Tile());
     });
     await this.fetchValidWords();
+    // Grab random word from list to set word
+    this.theWord = this.validWords[Math.floor(Math.random() * this.validWords.length)];
   },
 
   matchingTileForKey(key) {
@@ -44,8 +47,6 @@ export default {
     try {
       const res = await fetch(`/wordLists/words${this.wordLength}.json`);
       this.validWords = (await res.json()).map((w) => w.toLowerCase());
-      // Grab random word from list
-      this.theWord = this.validWords[Math.floor(Math.random() * this.validWords.length)];
     } catch (error) {
       this.error = "An error has occurred, please let me know!";
       console.error(error);
@@ -94,17 +95,13 @@ export default {
     if (guess === this.theWord) {
       this.message = "Correct, you win!";
       this.state = "complete";
-      return;
-    }
-
-    if (this.remainingGuesses === 0) {
+    } else if (this.remainingGuesses === 0) {
       this.message = "Game over, You Lose! Word was " + this.theWord.toUpperCase();
       this.state = "complete";
-      return;
+    } else {
+      this.message = "Zing-zong you are wrong";
+      this.currentRowIndex++;
     }
-
-    this.message = "Zing-zong you are wrong";
-    this.currentRowIndex++;
   },
 
   setTileStatuses() {

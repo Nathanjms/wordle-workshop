@@ -91,6 +91,7 @@ h1 {
   height: 50px;
   min-width: 30px;
   border-radius: 4px;
+  cursor: pointer;
 }
 
 .row.invalid .tile,
@@ -106,6 +107,7 @@ h1 {
 
 .key.correct {
   background: var(--correct-color);
+  color: white;
 }
 
 .tile.present {
